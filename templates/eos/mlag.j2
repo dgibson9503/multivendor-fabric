@@ -1,4 +1,4 @@
-vlan 4093
+vlan 3900
    name mlag_peer
    trunk group mlag_peer
 !
@@ -15,15 +15,15 @@ interface Port-Channel1
    switchport mode trunk
    switchport trunk group mlag_peer
 !
-interface Vlan4093
+interface Vlan3900
    description mlag_peer
    no autostate
    ip address {{ inventory_hostname_short | mlag_address('local', 'mlag') }}/31
 !
-no spanning-tree vlan-id 4093
+no spanning-tree vlan-id 3900
 !
 mlag configuration
    domain-id mlag
-   local-interface Vlan4093
+   local-interface Vlan3900
    peer-address {{ inventory_hostname_short | mlag_address('remote', 'mlag') }}
    peer-link Port-Channel1

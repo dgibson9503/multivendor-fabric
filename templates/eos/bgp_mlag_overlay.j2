@@ -1,10 +1,10 @@
 {% for vrf in vrfs -%}
-Vlan {{ 4094 + loop.index }}
+Vlan {{ 3901 + loop.index }}
 name mlag_bgp_peer
 !
 {% endfor -%}
 {% for vrf in vrfs -%}
-interface Vlan{{ 4094 + loop.index }}
+interface Vlan{{ 3901 + loop.index }}
    vrf overlay{{ vrf }}
    description mlag_bgp_peer
    ip address {{ inventory_hostname_short | mlag_address('local', 'bgp') }}/31
