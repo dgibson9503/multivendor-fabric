@@ -1,0 +1,17 @@
+feature interface-vlan
+!
+fabric forwarding anycast-gateway-mac 4000.0000.00aa
+!
+{% for vrf in vrfs -%}
+{% for vlan,attrs in vrfs[vrf].vlans.items() -%}
+interface vlan{{ vlan }}
+  vrf member overlay{{ vrf }}
+  description {{ attrs.description }}
+  ip address {{ attrs.address }}
+  mtu 9216
+  no ip redirects
+  fabric forwarding mode anycast-gateway
+  no shutdown
+!
+{% endfor -%}
+{% endfor -%}

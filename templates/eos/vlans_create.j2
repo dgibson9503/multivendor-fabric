@@ -1,4 +1,8 @@
+{% for vrf in vrfs -%}
 {% for vlan in vlans -%}
+{% if vlan in vrfs[vrf].vlans -%}
 vlan {{ vlan }}
-   name {{ vlans[vlan].name }}
+   name VNI{{ vrfs[vrf].vlans[vlan].vni }}
+{% endif -%}
+{% endfor -%}
 {% endfor -%}

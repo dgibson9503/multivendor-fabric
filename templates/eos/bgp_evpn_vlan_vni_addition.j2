@@ -1,8 +1,28 @@
-{% for vlan in vlans -%}
+{% for vrf in vrfs -%}
+vrf instance overlay{{ vrf }}
+ip routing vrf overlay{{ vrf }}
+{% endfor %}
+!
 router bgp {{ bgp.as_number }}
+   {% for vrf in vrfs -%}
+   {% for vlan in vlans -%}
+   {% if vlan in vrfs[vrf].vlans -%}
    vlan {{ vlan }}
-      rd {{ vlans[vlan].rd }}
-      route-target export {{ vlans[vlan].export_rt }}
-      route-target import {{ vlans[vlan].import_rt }}
+      rd {{ bgp.router_id}}:{{ vrfs[vrf].vlans[vlan].vni }}
+      route-target export {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
+      route-target import {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
       redistribute learned
+   !
+   {% endif -%}
+   {% endfor -%}
+   vrf overlay{{ vrf }}
+      router-id {{ bgp.router_id }}
+      rd {{ bgp.router_id}}:{{ vrf }}
+      route-target export {{ vrf }}:{{ vrf }}
+      route-target import {{ vrf }}:{{ vrf }}
+      redistribute connected route-map allow-overlay-nets
+   {% endfor -%}
+!
+{% for vrf in vrfs -%}
+vrf definition overlay{{ vrf }}
 {% endfor -%}

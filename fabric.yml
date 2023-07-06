@@ -77,6 +77,42 @@ topology:
       binds:
         - hosts/h6_interfaces:/etc/network/interfaces
       mgmt-ipv4: 172.20.20.26
+    h11:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h11_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.27
+    h22:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h22_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.28
+    h33:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h33_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.29
+    h44:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h44_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.30
+    h55:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h55_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.31
+    h66:
+      kind: linux
+      image: networkop/host:ifreload
+      binds:
+        - hosts/h66_interfaces:/etc/network/interfaces
+      mgmt-ipv4: 172.20.20.32
   links:
     - endpoints: ["leaf1:eth21", "spine1:eth1"]
     - endpoints: ["leaf1:eth22", "spine2:eth1"]
@@ -115,3 +151,9 @@ topology:
     - endpoints: ["leaf4:eth1", "h4:eth1"]
     - endpoints: ["leaf5:eth1", "h5:eth1"]
     - endpoints: ["leaf6:eth1", "h6:eth1"]
+    - endpoints: ["leaf1:eth2", "h11:eth1"]
+    - endpoints: ["leaf2:eth2", "h22:eth1"]
+    - endpoints: ["leaf3:eth2", "h33:eth1"]
+    - endpoints: ["leaf4:eth2", "h44:eth1"]
+    - endpoints: ["leaf5:eth2", "h55:eth1"]
+    - endpoints: ["leaf6:eth2", "h66:eth1"]

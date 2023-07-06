@@ -1,4 +1,6 @@
+ip prefix-list allow-loopbacks seq 10 permit 192.168.0.0/16 eq 32
+ip prefix-list allow-overlay-nets seq 10 permit 10.100.0.0/16 ge 24 le 32
 route-map allow-loopbacks permit 10
-  match interface Loopback0
-route-map allow-loopbacks permit 20
-  match interface Loopback1
+  match ip address prefix-list allow-loopbacks
+route-map allow-overlay-nets permit 10
+  match ip address prefix-list allow-overlay-nets

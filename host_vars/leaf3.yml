@@ -4,7 +4,8 @@ interfaces:
     address: '192.168.100.3/32'
     description: 'evpn_peer'
   Loopback1:
-    address: '192.168.102.3/32'
+    address: '192.168.101.3/32'
+    address_secondary: '192.168.102.3/32'
     description: 'vtep'
   Ethernet1/21:
     address: '10.10.11.5/31'
@@ -37,11 +38,8 @@ bgp:
 mlag: True
 vlans:
   100:
-    vni: 10100
-    name: 'VLAN100'
-    vni_source: '192.168.100.3'
     interfaces:
-      - 'Ethernet1/1'
-    rd: '192.168.100.3:3'
-    export_rt: '100:100'
-    import_rt: '100:100'
+    - 'Ethernet1/1'
+  101:
+    interfaces:
+    - 'Ethernet1/2'

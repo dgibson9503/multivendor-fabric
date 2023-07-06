@@ -1,0 +1,19 @@
+{% for vrf in vrfs -%}
+Vlan {{ 4094 + loop.index }}
+name mlag_bgp_peer
+!
+{% endfor -%}
+{% for vrf in vrfs -%}
+interface Vlan{{ 4094 + loop.index }}
+   vrf overlay{{ vrf }}
+   description mlag_bgp_peer
+   ip address {{ inventory_hostname_short | mlag_address('local', 'bgp') }}/31
+!
+{% endfor -%}
+router bgp {{ bgp.as_number }}
+   {% for vrf in vrfs -%}
+   vrf overlay{{ vrf }}
+      neighbor {{ inventory_hostname_short | mlag_address('remote', 'bgp') }} peer group mlag
+      address-family ipv4
+         neighbor {{ inventory_hostname_short | mlag_address('remote', 'bgp') }} activate
+   {% endfor -%}

@@ -2,7 +2,12 @@ interface nve1
   no shutdown
   host-reachability protocol bgp
   source-interface loopback1
+  {% for vrf in vrfs -%}
+  member vni {{ vrf }} associate-vrf
   {% for vlan in vlans -%}
-  member vni {{ vlans[vlan].vni}}
+  {% if vlan in vrfs[vrf].vlans -%}
+  member vni {{ vrfs[vrf].vlans[vlan].vni }}
     ingress-replication protocol bgp
+  {% endif -%}
+  {% endfor -%}
   {% endfor -%}

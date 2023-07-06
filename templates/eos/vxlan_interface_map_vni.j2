@@ -1,7 +1,12 @@
 interface Vxlan1
    vxlan source-interface Loopback1
+   vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
+   {% for vrf in vrfs -%}
+   vxlan vrf overlay{{ vrf }} vni {{ vrf }}
    {% for vlan in vlans -%}
-   vxlan vlan {{ vlan }} vni {{ vlans[vlan].vni }}
+   {% if vlan in vrfs[vrf].vlans -%}
+   vxlan vlan {{ vlan }} vni {{ vrfs[vrf].vlans[vlan].vni }}
+   {% endif -%}
    {% endfor -%}
- 
+   {% endfor -%}

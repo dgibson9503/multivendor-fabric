@@ -1,4 +1,8 @@
+{% for vrf in vrfs -%}
 {% for vlan in vlans -%}
+{% if vlan in vrfs[vrf].vlans -%}
 vlan {{ vlan }}
-  vn-segment {{ vlans[vlan].vni }}
+  vn-segment {{ vrfs[vrf].vlans[vlan].vni }}
+{% endif -%}
+{% endfor -%}
 {% endfor -%}

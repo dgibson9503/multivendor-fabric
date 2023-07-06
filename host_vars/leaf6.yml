@@ -49,10 +49,8 @@ bgp:
 mlag: True
 vlans:
   100:
-    vni: 10100
-    name: 'VLAN100-VNI10100'
     interfaces:
-      - 'Ethernet1'
-    rd: '192.168.100.6:6'
-    export_rt: '100:100'
-    import_rt: '100:100'
+    - 'Ethernet1'
+  101:
+    interfaces:
+    - 'Ethernet2'

@@ -1,0 +1,13 @@
+ip virtual-router mac-address 40:00:00:00:00:aa
+!
+{% for vrf in vrfs -%}
+{% for vlan,attrs in vrfs[vrf].vlans.items() -%}
+interface vlan{{ vlan }}
+   vrf overlay{{ vrf }}
+   description {{ attrs.description }}
+   ip address virtual {{ attrs.address }}
+   mtu 9214
+   no shutdown
+!
+{% endfor -%}
+{% endfor -%}

@@ -1,7 +1,36 @@
+feature interface-vlan
+!
+{% for vrf in vrfs -%}
+vlan {{ vrf }}
+  vn-segment {{ vrf }}
+!
+interface Vlan{{ vrf }}
+  no shutdown
+  vrf member overlay{{ vrf }}
+  ip forward
+!
+{% endfor -%}
+{% for vlan in vlans -%}
 evpn
+  {% for vrf in vrfs -%}
   {% for vlan in vlans -%}
-  vni {{ vlans[vlan].vni }} l2
-    rd {{ vlans[vlan].rd }}
-    route-target import {{ vlans[vlan].import_rt }}
-    route-target export {{ vlans[vlan].export_rt }}
+  {% if vlan in vrfs[vrf].vlans -%}
+  vni {{ vrfs[vrf].vlans[vlan].vni }} l2
+    rd {{ bgp.router_id}}:{{ vrfs[vrf].vlans[vlan].vni }}
+    route-target import {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
+    route-target export {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
+  {% endif -%}
   {% endfor -%}
+  {% endfor -%}
+{% endfor -%}
+!
+{% for vrf in vrfs -%}
+vrf context overlay{{ vrf }}
+  vni {{ vrf }}
+  rd {{ bgp.router_id}}:{{ vrf }}
+  address-family ipv4 unicast
+    route-target import {{ vrf }}:{{ vrf }}
+    route-target export {{ vrf }}:{{ vrf }}
+    route-target import {{ vrf }}:{{ vrf }} evpn
+    route-target export {{ vrf }}:{{ vrf }} evpn
+{% endfor -%}

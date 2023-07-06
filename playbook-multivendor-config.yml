@@ -19,9 +19,9 @@
       cli_config:
         config: "{{ lookup('template', 'templates/{{ platform }}/bgp_{{ role }}.j2') }}"
 
-    - name: Configure mlag bgp
+    - name: Configure mlag bgp underlay
       cli_config:
-        config: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag.j2') }}"
+        config: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag_underlay.j2') }}"
       when: mlag
 
     - name: Configure leaf VLANs
@@ -43,3 +43,13 @@
       cli_config:
         config: "{{ lookup('template', 'templates/{{ platform }}/vxlan_interface_map_vni.j2') }}"
       when: inventory_hostname in groups['leafs']
+
+    - name: Add overlay interfaces
+      cli_config:
+        config: "{{ lookup('template', 'templates/{{ platform }}/overlay_interfaces.j2') }}"
+      when: inventory_hostname in groups['leafs']
+
+    - name: Configure mlag bgp overlay
+      cli_config:
+        config: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag_overlay.j2') }}"
+      when: mlag

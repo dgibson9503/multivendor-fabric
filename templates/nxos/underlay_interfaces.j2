@@ -1,11 +1,17 @@
 feature lldp
 {% for interface in interfaces -%}
 interface {{ interface }}
+  description {{ interfaces[interface].description }}
   {% if 'loopback' in interface | lower -%}
   ip address {{ interfaces[interface].address }}
   {% else -%}
   no switchport
   ip address {{ interfaces[interface].address }}
+  mtu 9216
+  {% endif -%}
+  {% if 'address_secondary' in interfaces[interface] -%}
+  ip address {{ interfaces[interface].address_secondary }} secondary
+  {% endif -%}
   no shutdown
-  {% endif %}
+!
 {% endfor -%}

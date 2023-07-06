@@ -31,5 +31,12 @@ router bgp {{ bgp.as_number }}
   {% for neighbor in bgp.neighbors -%}
   neighbor {{ bgp.neighbors[neighbor].loopback }}
     inherit peer overlay
-  {% endfor %}
-
+  {% endfor -%}
+  {% for vrf in vrfs -%}
+  vrf overlay{{ vrf }}
+    router-id {{ bgp.router_id }}
+    address-family ipv4 unicast
+      advertise l2vpn evpn
+      redistribute direct route-map allow-overlay-nets
+      maximum-paths 64
+  {% endfor -%}

@@ -3,6 +3,6 @@ iface lo inet loopback
 
 auto eth1
 iface eth1 inet static
-    address 10.100.100.5
+    address 10.100.101.4
     netmask 255.255.255.0
-    up ip route add 10.100.101.0/24 via 10.100.100.254 dev eth1
+    up ip route add 10.100.100.0/24 via 10.100.101.254 dev eth1

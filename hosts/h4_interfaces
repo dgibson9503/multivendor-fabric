@@ -5,3 +5,4 @@ auto eth1
 iface eth1 inet static
     address 10.100.100.4
     netmask 255.255.255.0
+    up ip route add 10.100.101.0/24 via 10.100.100.254 dev eth1

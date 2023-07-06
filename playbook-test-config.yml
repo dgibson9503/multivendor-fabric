@@ -1,6 +1,6 @@
 ---
 - name: BGP EVPN multi-vendor VXLAN deployment
-  hosts: 'leaf1'
+  hosts: all
   tasks:
     - name: Generate mlag config
       debug:
@@ -8,7 +8,7 @@
 
     - name: Generate mlag bgp config
       debug:
-        msg: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag.j2') }}"
+        msg: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag_underlay.j2') }}"
 
     - name: route-maps
       debug:
@@ -40,4 +40,14 @@
     - name: Add leaf VLANs to VNIs mapping to VXLAN interface
       debug:
         msg: "{{ lookup('template', 'templates/{{ platform }}/vxlan_interface_map_vni.j2') }}"
+      when: inventory_hostname in groups['leafs']
+
+    - name: Add overlay interface configurations
+      debug:
+        msg: "{{ lookup('template', 'templates/{{ platform }}/overlay_interfaces.j2') }}"
+      when: inventory_hostname in groups['leafs']
+
+    - name: Add overlay interface configurations
+      debug:
+        msg: "{{ lookup('template', 'templates/{{ platform }}/bgp_mlag_overlay.j2') }}"
       when: inventory_hostname in groups['leafs']

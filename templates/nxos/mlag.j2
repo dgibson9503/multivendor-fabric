@@ -6,10 +6,13 @@ vrf context VPC_KEEPALIVE
 vpc domain 1
   peer-switch
   peer-keepalive destination {{ inventory_hostname_short | mlag_address('remote', 'mlag') }} source {{ inventory_hostname_short | mlag_address('local', 'mlag') }} vrf VPC_KEEPALIVE
+  peer-gateway
+  ip arp synchronize
   auto-recovery
 !
 interface Ethernet1/18
   description mlag_keepalive
+  no switchport
   vrf member VPC_KEEPALIVE
   ip address {{ inventory_hostname_short | mlag_address('local', 'mlag') }}/31
   no shutdown
