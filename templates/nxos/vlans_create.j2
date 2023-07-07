@@ -3,6 +3,7 @@
 {% if vlan in vrfs[vrf].vlans -%}
 vlan {{ vlan }}
   vn-segment {{ vrfs[vrf].vlans[vlan].vni }}
+!
 {% endif -%}
 {% endfor -%}
 {% endfor -%}

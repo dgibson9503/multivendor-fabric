@@ -3,18 +3,12 @@ base_asn: "64500"
 spine_asn: "64500.0"
 vrfs:
   3000:
-    export_rt: '3000:3000'
-    import_rt: '3000:3000'
     vlans:
       100:
         address: 10.100.100.254/24
         description: compute
         vni: 10100
-        export_rt: '10100:10100'
-        import_rt: '10100:10100'
       101:
         address: 10.100.101.254/24
         description: storage
         vni: 10101
-        export_rt: '10101:10101'
-        import_rt: '10101:10101'

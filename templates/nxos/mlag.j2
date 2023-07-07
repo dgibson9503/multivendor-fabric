@@ -3,6 +3,8 @@ feature vpc
 !
 vrf context VPC_KEEPALIVE
 !
+spanning-tree vlan 1-3926 priority 0
+!
 vpc domain 1
   peer-switch
   peer-keepalive destination {{ inventory_hostname_short | mlag_address('remote', 'mlag') }} source {{ inventory_hostname_short | mlag_address('local', 'mlag') }} vrf VPC_KEEPALIVE

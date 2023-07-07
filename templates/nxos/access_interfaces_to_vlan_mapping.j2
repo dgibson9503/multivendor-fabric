@@ -2,5 +2,8 @@
 {% for interface in vlans[vlan].interfaces -%}
 interface {{ interface }}
   switchport access vlan {{ vlan }}
+  {% if mlag %}
+  vpc orphan-port suspend
+  {% endif %}
 {% endfor -%}
 {% endfor -%}

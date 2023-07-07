@@ -3,6 +3,7 @@
 {% if vlan in vrfs[vrf].vlans -%}
 vlan {{ vlan }}
    name VNI{{ vrfs[vrf].vlans[vlan].vni }}
+!
 {% endif -%}
 {% endfor -%}
 {% endfor -%}
