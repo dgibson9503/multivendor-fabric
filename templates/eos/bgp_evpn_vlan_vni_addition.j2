@@ -18,8 +18,8 @@ router bgp {{ bgp.as_number }}
    vrf overlay{{ vrf }}
       router-id {{ bgp.router_id }}
       rd {{ bgp.router_id}}:{{ vrf }}
-      route-target export {{ base_asn }}:{{ vrf }}
-      route-target import {{ base_asn }}:{{ vrf }}
+      route-target export evpn {{ base_asn }}:{{ vrf }}
+      route-target import evpn {{ base_asn }}:{{ vrf }}
       redistribute connected route-map allow-overlay-nets
    {% endfor -%}
 !
