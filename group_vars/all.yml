@@ -1,4 +1,5 @@
 ---
+base_asn: "64500"
 spine_asn: "64500.0"
 vrfs:
   3000:

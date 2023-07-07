@@ -17,8 +17,8 @@ evpn
   {% if vlan in vrfs[vrf].vlans -%}
   vni {{ vrfs[vrf].vlans[vlan].vni }} l2
     rd {{ bgp.router_id}}:{{ vrfs[vrf].vlans[vlan].vni }}
-    route-target import {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
-    route-target export {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
+    route-target import {{ base_asn }}:{{ vrfs[vrf].vlans[vlan].vni }}
+    route-target export {{ base_asn }}:{{ vrfs[vrf].vlans[vlan].vni }}
   {% endif -%}
   {% endfor -%}
   {% endfor -%}
@@ -29,8 +29,8 @@ vrf context overlay{{ vrf }}
   vni {{ vrf }}
   rd {{ bgp.router_id}}:{{ vrf }}
   address-family ipv4 unicast
-    route-target import {{ vrf }}:{{ vrf }}
-    route-target export {{ vrf }}:{{ vrf }}
-    route-target import {{ vrf }}:{{ vrf }} evpn
-    route-target export {{ vrf }}:{{ vrf }} evpn
+    route-target import {{ base_asn }}:{{ vrf }}
+    route-target export {{ base_asn }}:{{ vrf }}
+    route-target import {{ base_asn }}:{{ vrf }} evpn
+    route-target export {{ base_asn }}:{{ vrf }} evpn
 {% endfor -%}

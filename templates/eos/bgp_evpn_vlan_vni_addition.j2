@@ -9,8 +9,8 @@ router bgp {{ bgp.as_number }}
    {% if vlan in vrfs[vrf].vlans -%}
    vlan {{ vlan }}
       rd {{ bgp.router_id}}:{{ vrfs[vrf].vlans[vlan].vni }}
-      route-target export {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
-      route-target import {{ vrfs[vrf].vlans[vlan].vni }}:{{ vrfs[vrf].vlans[vlan].vni }}
+      route-target export {{ base_asn }}:{{ vrfs[vrf].vlans[vlan].vni }}
+      route-target import {{ base_asn }}:{{ vrfs[vrf].vlans[vlan].vni }}
       redistribute learned
    !
    {% endif -%}
@@ -18,8 +18,8 @@ router bgp {{ bgp.as_number }}
    vrf overlay{{ vrf }}
       router-id {{ bgp.router_id }}
       rd {{ bgp.router_id}}:{{ vrf }}
-      route-target export {{ vrf }}:{{ vrf }}
-      route-target import {{ vrf }}:{{ vrf }}
+      route-target export {{ base_asn }}:{{ vrf }}
+      route-target import {{ base_asn }}:{{ vrf }}
       redistribute connected route-map allow-overlay-nets
    {% endfor -%}
 !

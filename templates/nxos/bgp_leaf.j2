@@ -11,7 +11,6 @@ router bgp {{ bgp.as_number }}
     maximum-paths 4
   address-family l2vpn evpn
     maximum-paths 4
-    allow-vni-in-ethertag
   template peer underlay
     remote-as 64500.0
     address-family ipv4 unicast
